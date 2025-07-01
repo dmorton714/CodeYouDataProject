@@ -5,8 +5,6 @@
 
 **We are working on this project as a team so:**
 
-
-
 * No one should take on everything
 * we can not work on the main branch!
 * We need to communicate with each other often!
@@ -15,6 +13,7 @@
 * We will have all of our code reviewed before doing a PR
 * All code should have tests to verify it works as intended
 * All code should be in functions
+* Data folder in local repo should be added to .gitignore
 
 <br>
 **Final Report Code** will live in a google collab Notebook
