@@ -1,0 +1,41 @@
+name: Validate Notebooks
+
+on:
+  push:
+    paths:
+      - '**.ipynb'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Required to fetch the history for 'tj-actions/changed-files'
+          fetch-depth: 0 
+
+      - name: Get changed notebooks
+        id: changed-notebooks
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            **.ipynb
+
+      - name: Setup Python and Dependencies
+        if: steps.changed-notebooks.outputs.any_changed == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        if: steps.changed-notebooks.outputs.any_changed == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Run changed notebooks
+        if: steps.changed-notebooks.outputs.any_changed == 'true'
+        run: |
+          for notebook in ${{ steps.changed-notebooks.outputs.all_changed_files }}; do
+            echo "--- Validating ${notebook} ---"
+            jupyter nbconvert --to script --execute "${notebook}"
+          done
