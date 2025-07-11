@@ -1,3 +1,9 @@
+# raw data
+raw_data
+
+# config files
+google_api_creds.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
