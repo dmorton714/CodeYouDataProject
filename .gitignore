@@ -1,3 +1,8 @@
+# Custom files and folders for this project
+requirements.txt
+data/
+venv/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
