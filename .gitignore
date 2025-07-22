@@ -207,3 +207,8 @@ marimo/_lsp/
 __marimo__/
 
 .DS_Store
+
+data/WORC Employment.xlsx
+data/ARC Enrollments.xlsx
+data/ARC Application.xlsx
+data/All demographics and programs.xlsx
