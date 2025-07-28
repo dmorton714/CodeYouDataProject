@@ -101,6 +101,43 @@ class DemographicsCleaning:
         return df
 
 
+class WorceCleaning:
+    """
+    A placeholder for a class that can be used to clean Worce data.
+    This class can be extended in the future to include specific cleaning methods.
+    """
+    @staticmethod
+    def clean(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Placeholder method for cleaning Worce data.
+        Currently does nothing but can be extended in the future.
+
+        Args:
+            df (pd.DataFrame): Input dataframe containing Worce data.
+
+        Returns:
+            pd.DataFrame: Unchanged dataframe.
+        """
+    pass
+
+
+class NewClass:
+    """
+    A placeholder for a new class that can be added in the future.
+    This class can be used to extend functionality or add new features.
+    """
+
+    @staticmethod
+    def example_method():
+        """
+        An example method that can be implemented in the future.
+        This is a placeholder for future functionality.
+        """
+        pass
+
+    pass
+
+
 if __name__ == "__main__":
     # Example usage:
     # Load the demographics data from an Excel file
