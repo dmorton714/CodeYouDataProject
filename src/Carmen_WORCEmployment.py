@@ -6,7 +6,7 @@ worc = pd.read_excel(file_path)
 # removed auto id as we may need it later
 cols_to_drop = ['Employment History Name']
 
-#worc_cols_dropped = worc.drop(columns=cols_to_drop, axis=1)
+worc_cols_dropped = worc.drop(columns=cols_to_drop, axis=1)
 
 # Why did we decide to drop all nulls? I dropped nulls because there was no salary value. Which is what I thought was important for this data set. 
 # This can be dangerous if we have a lot of nulls 
