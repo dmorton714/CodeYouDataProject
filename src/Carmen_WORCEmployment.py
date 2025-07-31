@@ -21,4 +21,5 @@ def load_and_clean(file_path="../../data/WORC_Employment.xlsx"):
     worc_cols_dropped['Start Date'] = pd.to_datetime(worc_cols_dropped['Start Date'])
     worc_cols_dropped['Salary'] = pd.to_numeric(worc_cols_dropped['Salary'], errors='coerce')
 
-    return worc_cols_dropped
+    worc_clean = worc_cols_dropped
+    return worc_clean
