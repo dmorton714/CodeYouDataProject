@@ -5,12 +5,31 @@ class EnrollmentsCleaning:
     def __init__(self, raw_data):
         self.raw_data = raw_data
     
-    def Drop_columns(self, df):
+    def __Drop_columns(self, df):
+        """
+            Deletes the columns not needed for the analysis, 
+            if you want to add columns to delete change the const variable 'COLUMNS_TO_DROP'.
+
+            Args:
+                df: pandas.DataFrame
+
+            Return:
+                pandas.DataFrame
+        """
         COLUMNS_TO_DROP = ['Full Name']
         result = df.drop(columns=COLUMNS_TO_DROP)
         return result
     
-    def Fix_nan_values(self, df):
+    def __Fix_nan_values(self, df):
+        """
+            Gives values to NaN.
+
+            Args:
+                df: pandas.DataFrame
+
+            Return:
+                pandas.DataFrame
+        """
         # Fix NaN values
         NAN_VALUE_SUBSTITUTE = 'NA'
         columns_to_fix = {
@@ -23,22 +42,48 @@ class EnrollmentsCleaning:
         
         return df
     
-    def Rename_values(self, df):
-        # Fix change name Data Analitics 2 to Data Analysis 2 for consistency
+    def __Rename_values(self, df):
+        """
+            Changes values for consistency.
+
+            Args:
+                df: pandas.DataFrame
+
+            Return:
+                pandas.DataFrame
+        """
         df.loc[df['Service'] == 'Data Analytics 2', 'Service'] = 'Data Analysis 2'
         return df
     
-    def Delete_values(self, df):
-        # Delete values not needed
+    def __Delete_values(self, df):
+        """
+            Deletes values not needed, if you want to add values to delete change the const variable 'VALUES_NOT_NEEDED'.
+
+
+            Args:
+                df: pandas.DataFrame
+
+            Return:
+                pandas.DataFrame
+        """
         # 'Referral to External Service', 'Supportive Services Referral', are deleted because dont have a "Projected Start Date" 
-        values_not_needed = {
+        VALUES_NOT_NEEDED = {
             'Service': ['Software Development 1', 'Software Development 2', 'Web Development 1', 'Web Development 2', 'Data Analysis 1','Data Analysis 2', 'Referral to External Service', 'Supportive Services Referral']
         }
-        for column, value in values_not_needed.items():
+        for column, value in VALUES_NOT_NEEDED.items():
             df = df[~df[column].isin(value)]
         return df
         
-    def Set_data_types(self, df):
+    def __Set_data_types(self, df):
+        """
+            Sets data type for each column.
+
+            Args:
+                df: pandas.DataFrame
+
+            Return:
+                pandas.DataFrame
+        """
         # DataTypes
         column_datatype: dict = {'Auto Id': str, 'KY Region': str, 'Assessment ID': str, 'EnrollmentId': str,
         'Enrollment Service Name': str, 'Service': str, 'Projected Start Date': str,
@@ -50,7 +95,21 @@ class EnrollmentsCleaning:
             df[column] = df[column].astype(type)
         return df
     
-    def Find_cohort(self, id: str, projected_start_date: str, cohort_to_find: str, df_to_clean: pd.DataFrame):
+    def __Find_cohort(self, id: str, projected_start_date: str, cohort_to_find: str, df_to_clean: pd.DataFrame):
+        """
+            Finds values for each NaN of 'ATP Cohort' column.
+            This function was created with the idea of using pandas.DataFrame.apply().
+
+
+            Args:
+                id: str
+                projected_start_date: str
+                cohort_to_find: str
+                df_to_clean: pandas.DataFrame
+
+            Return:
+                numpy.array
+        """
         ## Q: What to do with Service: ['Referral to External Service', 'Supportive Services Referral']
         ## TODO: Clean the NaTType before this function runs
         if pd.isna(cohort_to_find):
@@ -75,11 +134,20 @@ class EnrollmentsCleaning:
             return np.datetime64(cohort_to_find)
 
     def Get_clean_data(self):
+        """
+            Cleans the raw data.
+
+            Args:
+                df: pandas.DataFrame
+
+            Return:
+                pandas.DataFrame
+        """
         df = self.raw_data
-        df = self.Drop_columns(df)
-        df = self.Fix_nan_values(df)
-        df = self.Rename_values(df)
-        df = self.Delete_values(df)
-        df = self.Set_data_types(df)
-        df['ATP Cohort'] = df.apply(lambda row: self.Find_cohort(row['Auto Id'], row['Projected Start Date'], row['ATP Cohort'], df), axis=1)
+        df = self.__Drop_columns(df)
+        df = self.__Fix_nan_values(df)
+        df = self.__Rename_values(df)
+        df = self.__Delete_values(df)
+        df = self.__Set_data_types(df)
+        df['ATP Cohort'] = df.apply(lambda row: self.__Find_cohort(row['Auto Id'], row['Projected Start Date'], row['ATP Cohort'], df), axis=1)
         return df
