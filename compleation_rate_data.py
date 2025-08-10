@@ -1,0 +1,52 @@
+import pandas as pd
+
+class Compleation_rate_data:
+    def __init__(self, data):
+        self.data = data
+        self.__pathways = [
+            'Web Development M1',
+            'Web Development M2',
+            'Web Development M3',
+            'Web Development M4',
+            'Data Analysis M1', 
+            'Data Analysis M2',
+            'Data Analysis M3',
+            'Data Analysis M4', 
+            'Software Development M1',
+            'Software Development M2',
+            'Software Development M3',
+            'Software Development M4',
+            'Quality Assurance M1', 
+            'Quality Assurance M2',
+            'Quality Assurance M3', 
+            'Quality Assurance M4', 
+            'User Experience M1', 
+            'User Experience M2',
+            'User Experience M3', 
+            'User Experience M4',
+        ]
+
+        # Not the best Pandas way to do it:
+    def Get_completion_percentages(self, cohort: str = 'All cohorts') -> pd.DataFrame:
+        
+
+        if cohort == 'All cohorts':
+            data = self.data
+        else:
+            data = self.data[self.data['ATP Cohort'] == pd.Timestamp(cohort)]
+
+        completion_dictionary = {}
+
+        for path in self.__pathways:
+            outcome = data[data['Service'] == path]['Outcome'].value_counts(normalize=True).reset_index()
+            completion_dictionary[path] = {row.Outcome: row.proportion for row in outcome.itertuples(index=True)}
+        
+        result_df = pd.DataFrame(completion_dictionary).transpose().fillna(0).rename_axis('Module').reset_index()
+
+        result_df['Pathway'] = result_df['Module'].apply(lambda x: x[:x.rfind(' ')]) # intended to be able to sort by pathway
+        return result_df
+    # TODO: Add test
+
+    def Get_pathways_name(self, df: pd.DataFrame) -> list:
+        return list(df['Pathway'].unique())
+
