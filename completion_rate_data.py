@@ -1,6 +1,6 @@
 import pandas as pd
 
-class Compleation_rate_data:
+class Completion_rate_data:
     def __init__(self, data):
         self.data = data
         self.__pathways = [
