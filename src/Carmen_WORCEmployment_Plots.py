@@ -1,9 +1,6 @@
 import sys
 import os
-
-# Add the parent directory (src) to sys.path
-sys.path.append(os.path.abspath(".."))
-
+import pandas as pd
 from Carmen_WORCEmployment import load_and_clean
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -56,4 +53,6 @@ def main():
 
 
 if __name__ == "__main__":
+    data = pd.read_excel('data/WORC_Employment.xlsx')
+    worc_clean = load_and_clean()
     main()

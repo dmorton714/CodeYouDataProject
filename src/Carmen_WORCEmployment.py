@@ -1,6 +1,6 @@
 import pandas as pd
 
-def load_and_clean(file_path="../../data/WORC_Employment.xlsx"):
+def load_and_clean(file_path="data/WORC_Employment.xlsx"):
     """
     Loads and cleans the WORC Employment dataset.
     
