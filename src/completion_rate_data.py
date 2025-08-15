@@ -60,6 +60,13 @@ class Completion_rate_data:
             # intended to be able to sort by pathway
             lambda x: x[:x.rfind(' ')])
         return result_df
+    
+    def Get_cohorts_list(self):
+        df = self.data
+        df = df[df['Service'].isin(self.__pathways)]
+        result = list(df['ATP Cohort'].sort_values(ascending=True).astype(str).unique())
+        result.insert(0, 'All cohorts')
+        return result
 
     def Get_pathways_name(self, df: pd.DataFrame) -> list:
         """
