@@ -1,11 +1,11 @@
 import pandas as pd
-import numpy as np
+
 
 class DataCleaner:
     """
     General-purpose cleaner for multiple WORC datasets
     (Employment, Enrollments, Demographics).
-    
+
     Uses try/except for safety (does not break if col missing).
     Keeps all rows (no drops), but fills/fixes when possible.
     """
@@ -45,7 +45,8 @@ class DataCleaner:
         try:
             if col in self.df.columns:
                 if "datetime" in str(dtype):
-                    self.df[col] = pd.to_datetime(self.df[col], errors="coerce")
+                    self.df[col] = pd.to_datetime(
+                        self.df[col], errors="coerce")
                 else:
                     self.df[col] = self.df[col].astype(dtype, errors=errors)
         except Exception as e:
@@ -68,9 +69,12 @@ class DataCleaner:
         """Split Race column into Race_1, Race_2, etc., if it exists."""
         try:
             if "Race" in self.df.columns:
-                splitting = self.df["Race"].astype(str).str.split(";", expand=True)
-                splitting.columns = [f"Race_{i+1}" for i in range(splitting.shape[1])]
-                self.df = pd.concat([self.df.drop(columns=["Race"]), splitting], axis=1)
+                splitting = self.df["Race"].astype(
+                    str).str.split(";", expand=True)
+                splitting.columns = [
+                    f"Race_{i+1}" for i in range(splitting.shape[1])]
+                self.df = pd.concat(
+                    [self.df.drop(columns=["Race"]), splitting], axis=1)
         except Exception as e:
             print(f"[Warning] Failed race splitting: {e}")
         return self
@@ -79,7 +83,8 @@ class DataCleaner:
         """Fix salary inconsistencies."""
         try:
             if "Salary" in self.df.columns:
-                self.df["Salary"] = pd.to_numeric(self.df["Salary"], errors="coerce")
+                self.df["Salary"] = pd.to_numeric(
+                    self.df["Salary"], errors="coerce")
                 self.df["Salary"] = self.df["Salary"].replace(60000, 28.84)
         except Exception as e:
             print(f"[Warning] Failed salary cleaning: {e}")
