@@ -24,7 +24,7 @@ class Most_common_pathways_taken_data:
             Return:
                 pandas.DataFrame
         """
-        mask_starter_pathways = self.data['Service'].isin(self.__starter_pathways) # noqa
+        mask_starter_pathways = self.data['Service'].isin(self.__starter_pathways)  # noqa
         return self.data[mask_starter_pathways]
 
     def Get_cohorts_list(self):
@@ -38,7 +38,7 @@ class Most_common_pathways_taken_data:
                 list
         """
         df = self.starter_only_df
-        cohorts = list(pd.to_datetime(df['ATP Cohort'][df['ATP Cohort'] != 'NA']).sort_values(ascending=True).astype(str).unique()) # noqa
+        cohorts = list(pd.to_datetime(df['ATP Cohort'][df['ATP Cohort'] != 'NA']).sort_values(ascending=True).astype(str).unique())  # noqa
         cohorts.insert(0, 'All cohorts')
         return cohorts
 
@@ -57,6 +57,6 @@ class Most_common_pathways_taken_data:
         if cohort == 'All cohorts':
             result = df.value_counts('Service').reset_index()
         else:
-            result = df[df['ATP Cohort'] == str(pd.to_datetime(cohort))].value_counts('Service').reset_index() # noqa
+            result = df[df['ATP Cohort'] == str(pd.to_datetime(cohort))].value_counts('Service').reset_index()  # noqa
 
         return result
