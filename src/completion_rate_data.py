@@ -29,7 +29,7 @@ class Completion_rate_data:
 
         # Not the best Pandas way to do it:
     def Get_completion_percentages(self,
-                                   cohort: str = 'All cohorts') -> pd.DataFrame: # noqa
+                                   cohort: str = 'All cohorts') -> pd.DataFrame:  # noqa
         """
             Creates a pandas.Datafreme that contains the %
             of completion of each pathway.
@@ -51,7 +51,7 @@ class Completion_rate_data:
             outcome = data[data['Service'] == path]['Outcome'].value_counts(
                 normalize=True).reset_index()
             completion_dictionary[path] = {
-                row.Outcome: row.proportion for row in outcome.itertuples(index=True)} # noqa
+                row.Outcome: row.proportion for row in outcome.itertuples(index=True)}  # noqa
 
         result_df = pd.DataFrame(completion_dictionary).transpose().fillna(
             0).rename_axis('Module').reset_index()
